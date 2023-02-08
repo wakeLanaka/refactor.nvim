@@ -1,0 +1,19 @@
+============================================================================
+                                                               *refactor.nvim*
+
+                                                             *refactor.push()*
+refactor.push({abcd})
+  Here should be a description. 
+>
+  This here is an example with inside those >example<
+<
+
+                                                              *refactor.pop()*
+refactor.pop({abd})
+  This is some |refactor.push()| reference done with || and text inside. It is
+  important to call :helptags
+
+
+
+
+vim:tw=78:ts=8:ft=help:norl:

@@ -1,0 +1,3 @@
+refactor.nvim	refactor.txt	/*refactor.nvim*
+refactor.pop()	refactor.txt	/*refactor.pop()*
+refactor.push()	refactor.txt	/*refactor.push()*
