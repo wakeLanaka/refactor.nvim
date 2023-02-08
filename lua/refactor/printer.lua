@@ -1,5 +1,4 @@
--- TODO: Add tests, languages for console and make it possible to delete console logs
-
+-- TODO: Add tests, store printer_nodes and then delete thos
 local languages = require("refactor.languages")
 local ts_utils = require("nvim-treesitter.ts_utils")
 local query = vim.treesitter.query
@@ -56,8 +55,14 @@ M.print_identifier = function()
   local node_text = query.get_node_text(node, bufnr)
   local print_text = languages.print_keyword[vim.bo.filetype] .. "(\"" .. node_text .. ": \" + " .. node_text .. ")"
   local indented_text = indent_text(print_text, line_col)
+  local printer_row = line_row + 1
+  vim.api.nvim_buf_set_lines(bufnr, printer_row, printer_row, true, {indented_text} )
+end
 
-  vim.api.nvim_buf_set_lines(bufnr, line_row + 1, line_row + 1, true, {"", indented_text} )
+M.delete_printers = function()
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_command("%s/^\\s\\+\\<" .. languages.print_keyword[vim.bo.filetype] .. "\\>.\\+\\n")
+  vim.api.nvim_win_set_cursor(0, cursor_position)
 end
 
 return M
