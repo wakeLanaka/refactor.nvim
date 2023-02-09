@@ -1,3 +1,4 @@
+example	refactor.txt	/*example*
+refactor.delete_printers()	refactor.txt	/*refactor.delete_printers()*
 refactor.nvim	refactor.txt	/*refactor.nvim*
-refactor.pop()	refactor.txt	/*refactor.pop()*
-refactor.push()	refactor.txt	/*refactor.push()*
+refactor.print_identifier()	refactor.txt	/*refactor.print_identifier()*

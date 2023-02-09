@@ -1,19 +1,21 @@
 ============================================================================
                                                                *refactor.nvim*
 
-                                                             *refactor.push()*
-refactor.push({abcd})
-  Here should be a description. 
+                                                                     *example*
+example()
+  This is some |refactor.print_identifier()| reference done with || and text
+  inside. It is important to call :helptags
 >
   This here is an example with inside those >example<
 <
+                                                 *refactor.print_identifier()*
+refactor.print_identifier()
+  Add a new line to the code, which prints the variable under the cursor.
 
-                                                              *refactor.pop()*
-refactor.pop({abd})
-  This is some |refactor.push()| reference done with || and text inside. It is
-  important to call :helptags
-
-
+                                                  *refactor.delete_printers()*
+refactor.delete_printers()
+  Delete all printers added with |refactor.print_identifier()|. Users mustn't
+  modify appended comments. Otherwise, the plugin won't delete those printers.
 
 
 vim:tw=78:ts=8:ft=help:norl:
