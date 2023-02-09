@@ -16,10 +16,13 @@ A plugin to help refactoring your code.
 The printers functionality was inspired by [Primeagen's refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim)
 
 #### Print identifier
+
 Keymap to print variable:
 ```lua
 vim.keymap.set("n", "<leader>rp", "<cmd>lua require('refactor').print_identifier()<cr>")
 ```
+### Delete printers
+
 Keymap to delete all generated printers in this buffer:
 ```lua
 vim.keymap.set("n", "<leader>rd", "<cmd>lua require('refactor').delete_printers()<cr>")
