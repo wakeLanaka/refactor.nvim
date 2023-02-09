@@ -4,4 +4,9 @@ M.print_keyword = {
   javascript = "console.log",
   scala = "println"
 }
+M.comment_keyword = {
+  lua = "--",
+  javascript = "//",
+  scala = "//"
+}
 return M

@@ -42,7 +42,10 @@ end
 
 local M = {}
 
-M.print_identifier = function()
+
+M.print_identifier = function ()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local filetype = vim.bo.filetype
   local node = ts_utils.get_node_at_cursor()
 
   if not is_identifier_node(node) then
@@ -51,17 +54,24 @@ M.print_identifier = function()
 
   local line_row, line_col = get_whole_line(node):start()
 
-  local bufnr = vim.api.nvim_get_current_buf()
+  -- local bufnr = vim.api.nvim_get_current_buf()
   local node_text = query.get_node_text(node, bufnr)
-  local print_text = languages.print_keyword[vim.bo.filetype] .. "(\"" .. node_text .. ": \" + " .. node_text .. ")"
+  local print_text = languages.print_keyword[filetype] .. "(\"" .. node_text .. ": \" + " .. node_text .. ") " .. languages.comment_keyword[filetype] .. " GENERATED PRINT"
   local indented_text = indent_text(print_text, line_col)
   local printer_row = line_row + 1
   vim.api.nvim_buf_set_lines(bufnr, printer_row, printer_row, true, {indented_text} )
 end
 
+
 M.delete_printers = function()
+  local comment = languages.comment_keyword[vim.bo.filetype]
+  comment = comment:gsub(".", function (c)
+    if c == "/" then
+      return "\\/"
+    end
+  end)
   local cursor_position = vim.api.nvim_win_get_cursor(0)
-  vim.api.nvim_command("%s/^\\s\\+\\<" .. languages.print_keyword[vim.bo.filetype] .. "\\>.\\+\\n")
+  vim.api.nvim_command("%s/^.\\+".. comment .. " GENERATED PRINT\\n//")
   vim.api.nvim_win_set_cursor(0, cursor_position)
 end
 
