@@ -5,8 +5,9 @@ local ts_helpers = require("refactor.ts_helpers")
 local string_utils = require("refactor.string_utils")
 local query = vim.treesitter.query
 
-local M = {}
+local comment_identifier = " GENERATED PRINT"
 
+local M = {}
 
 M.print_identifier = function ()
   local node = ts_utils.get_node_at_cursor()
@@ -18,23 +19,23 @@ M.print_identifier = function ()
   local identifier = query.get_node_text(node, bufnr)
   local filetype = vim.bo.filetype
   local print_text = languages.print_keyword[filetype] .. "(\"" .. identifier .. ": \" + " .. identifier .. ") "
-      .. languages.comment_keyword[filetype] .. " GENERATED PRINT"
+      .. languages.comment_keyword[filetype] .. comment_identifier
   local indented_text = string_utils.indent_line(print_text, line_col)
   local printer_row = line_row + 1
-  vim.api.nvim_buf_set_lines(bufnr, printer_row, printer_row, true, {indented_text} )
+  vim.api.nvim_buf_set_lines(bufnr, printer_row, printer_row, false, {indented_text} )
 end
 
 
 M.delete_printers = function()
-  local comment = languages.comment_keyword[vim.bo.filetype]
-  comment = comment:gsub(".", function (c)
-    if c == "/" then
-      return "\\/"
+  local bufnr = vim.api.nvim_get_current_buf()
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+
+  for i = #lines, 1, -1 do
+    local line_to_delete = string.find(lines[i], comment_identifier)
+    if line_to_delete then
+      vim.api.nvim_buf_set_lines(bufnr, i - 1, i, false, {})
     end
-  end)
-  -- local cursor_position = vim.api.nvim_win_get_cursor(0)
-  vim.api.nvim_command("%s/^.*".. comment .. " GENERATED PRINT\\n//")
-  -- vim.api.nvim_win_set_cursor(0, cursor_position)
+  end
 end
 
 return M
