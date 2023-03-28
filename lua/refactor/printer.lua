@@ -11,7 +11,7 @@ local M = {}
 
 M.print_identifier = function ()
   local node = ts_utils.get_node_at_cursor()
-  if not ts_helpers.is_identifier_node(node) then
+  if not ts_helpers.is_node_kind("identifier", node) then
     return nil
   end
   local line_row, line_col = ts_helpers.get_whole_line(node):start()

@@ -9,4 +9,23 @@ M.comment_keyword = {
   javascript = "//",
   scala = "//"
 }
+
+M.function_keyword = {
+  lua = "local function",
+  javascript = "function",
+  scala = "def"
+}
+
+M.function_signature_ending = {
+  lua = "()",
+  javascript = "(){",
+  scala = "() = {"
+}
+
+M.function_ending = {
+  lua = "end",
+  javascript = "}",
+  scala = "}"
+}
+
 return M

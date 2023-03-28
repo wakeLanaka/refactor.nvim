@@ -21,9 +21,18 @@ Keymap to print variable:
 ```lua
 vim.keymap.set("n", "<leader>rp", "<cmd>lua require('refactor').print_identifier()<cr>")
 ```
+
 ### Delete printers
 
 Keymap to delete all generated printers in this buffer:
 ```lua
 vim.keymap.set("n", "<leader>rd", "<cmd>lua require('refactor').delete_printers()<cr>")
+```
+
+## exctract method
+
+Keymap to extract the selected code to a new method above the current method. This does only work if the code snippet is
+marked in visual mode.
+```lua
+vim.keymap.set("v", "<leader>rx", "<cmd>lua require('refactor').extract_method()<cr>")
 ```

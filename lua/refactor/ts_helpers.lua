@@ -1,3 +1,4 @@
+local ts_utils = require("nvim-treesitter.ts_utils")
 local M = {}
 
 M.get_whole_line = function(node)
@@ -12,18 +13,19 @@ M.get_whole_line = function(node)
   return node
 end
 
-M.is_identifier_node = function (node)
-  local is_identifier = true
+M.get_function_node = function(node)
+  local parent = node:parent()
+  while (not (M.is_node_kind("function_declaration", parent) or M.is_node_kind("function_definition", parent))) do
+    parent = parent:parent()
+  end
+  return parent
+end
+
+M.is_node_kind = function(node_name, node)
   if node == nil then
-    print("No treesitter parser found!")
-    is_identifier = false
+    return false
   end
-  local node_type = node:type()
-  if node_type ~= "identifier" then
-    print("Node is not an identifier!")
-    is_identifier = false
-  end
-  return is_identifier
+  return node_name == node:type()
 end
 
 return M
