@@ -4,7 +4,6 @@ local ts_utils = require("nvim-treesitter.ts_utils")
 local ts_helpers = require("refactor.ts_helpers")
 local languages = require("refactor.languages")
 local string_utils = require("refactor.string_utils")
-local query = vim.treesitter.query
 
 local function sort_visual_selection_range(line1, line2)
   if (line1 > line2) then
@@ -41,7 +40,7 @@ local function get_identifiers(bufnr, root)
   local declarations = {}
   local test = vim.treesitter.parse_query("scala", [[(identifier) @id]])
   for _, node in test:iter_captures(root, vim.bo.filetype, 0, -1) do
-    local variable_name = query.get_node_text(node, bufnr)
+    local variable_name = vim.treesitter.get_node_text(node, bufnr)
     declarations[variable_name] = node:start()
   end
   return declarations

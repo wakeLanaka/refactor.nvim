@@ -3,7 +3,6 @@ local languages = require("refactor.languages")
 local ts_utils = require("nvim-treesitter.ts_utils")
 local ts_helpers = require("refactor.ts_helpers")
 local string_utils = require("refactor.string_utils")
-local query = vim.treesitter.query
 
 local comment_identifier = " GENERATED PRINT"
 
@@ -16,7 +15,7 @@ M.print_identifier = function ()
   end
   local line_row, line_col = ts_helpers.get_whole_line(node):start()
   local bufnr = vim.api.nvim_get_current_buf()
-  local identifier = query.get_node_text(node, bufnr)
+  local identifier = vim.treesitter.get_node_text(node, bufnr)
   local filetype = vim.bo.filetype
   local print_text = languages.print_keyword[filetype] .. "(\"" .. identifier .. ": \" + " .. identifier .. ") "
       .. languages.comment_keyword[filetype] .. comment_identifier
